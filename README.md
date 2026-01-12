@@ -186,6 +186,8 @@ npm run preview
 
 ## 🐳 Docker 部署
 
+> **国内用户注意：** Dockerfile 已配置淘宝 npm 镜像源，可加速依赖安装。如遇到 Docker 镜像拉取问题，请参考下方的 [常见问题](#docker-镜像拉取失败) 解决方案。
+
 ### 方式一：使用 Docker Compose（推荐）
 
 ```bash
