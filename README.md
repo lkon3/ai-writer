@@ -184,6 +184,65 @@ npm run build
 npm run preview
 ```
 
+## 🐳 Docker 部署
+
+### 方式一：使用 Docker Compose（推荐）
+
+```bash
+# 构建并启动容器
+docker-compose up -d
+
+# 查看日志
+docker-compose logs -f
+
+# 停止容器
+docker-compose down
+```
+
+访问地址：http://localhost:8080
+
+### 方式二：使用 Docker 命令
+
+```bash
+# 构建镜像
+docker build -t ai-writer:latest .
+
+# 运行容器
+docker run -d -p 8080:80 --name ai-writer ai-writer:latest
+
+# 查看日志
+docker logs -f ai-writer
+
+# 停止容器
+docker stop ai-writer
+
+# 删除容器
+docker rm ai-writer
+```
+
+### 自定义端口
+
+修改 `docker-compose.yml` 中的端口映射：
+
+```yaml
+ports:
+  - "你的端口:80"
+```
+
+或使用 Docker 命令：
+
+```bash
+docker run -d -p 你的端口:80 --name ai-writer ai-writer:latest
+```
+
+### 生产环境部署建议
+
+1. **使用反向代理**（如 Nginx）配置 HTTPS
+2. **设置环境变量**管理敏感信息
+3. **配置日志收集**和监控
+4. **定期更新**镜像以获取安全补丁
+5. **使用多阶段构建**减小镜像体积
+
 ## 🌟 功能截图
 
 ### 主页
