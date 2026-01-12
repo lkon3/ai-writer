@@ -91,10 +91,10 @@
 
 ```bash
 # 克隆项目
-git clone https://github.com/lkon3/ai-writer-web
+git clone https://github.com/lkon3/ai-writer-web.git
 
 # 进入项目目录
-cd ai-writer
+cd ai-writer-web
 
 # 安装依赖
 npm install
@@ -143,7 +143,7 @@ npm run dev
 ## 📁 项目结构
 
 ```
-ai-writer/
+ai-writer-web/
 ├── src/
 │   ├── api/              # API调用封装
 │   │   ├── providers/    # 各家API适配器
@@ -189,6 +189,10 @@ npm run preview
 ### 方式一：使用 Docker Compose（推荐）
 
 ```bash
+# 克隆项目
+git clone https://github.com/lkon3/ai-writer-web.git
+cd ai-writer-web
+
 # 构建并启动容器
 docker-compose up -d
 
@@ -242,6 +246,98 @@ docker run -d -p 你的端口:80 --name ai-writer ai-writer:latest
 3. **配置日志收集**和监控
 4. **定期更新**镜像以获取安全补丁
 5. **使用多阶段构建**减小镜像体积
+
+## 🔧 常见问题
+
+### Docker 镜像拉取失败
+
+**问题现象：**
+```
+ERROR [internal] load metadata for docker.io/library/nginx:alpine
+failed to fetch oauth token: dial tcp: connect: connection timed out
+```
+
+**原因：** 无法访问 Docker Hub（`docker.io`）
+
+**解决方案一：配置镜像加速器（推荐）**
+
+**Windows Docker Desktop：**
+1. 打开 Docker Desktop
+2. 点击设置图标 ⚙️ → **Docker Engine**
+3. 在配置 JSON 中添加：
+```json
+{
+  "registry-mirrors": [
+    "https://docker.1panel.live",
+    "https://docker.unsee.tech",
+    "https://docker.ckyl.me"
+  ],
+  "dns": ["8.8.8.8", "114.114.114.114"]
+}
+```
+4. 点击 **Apply & Restart** 重启 Docker
+
+**Linux 系统：**
+```bash
+sudo mkdir -p /etc/docker
+sudo tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": [
+    "https://docker.1panel.live",
+    "https://docker.unsee.tech",
+    "https://docker.ckyl.me"
+  ],
+  "dns": ["8.8.8.8", "114.114.114.114"]
+}
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+**解决方案二：配置代理**
+
+如果你使用代理，可以在 Docker Desktop 中配置代理：
+1. 打开 Docker Desktop
+2. 点击设置 → **Resources** → **Proxies**
+3. 启用 **Manual proxy configuration**
+4. 输入代理地址和端口
+
+**解决方案三：手动拉取镜像**
+
+```bash
+# 先手动拉取所需镜像
+docker pull nginx:alpine
+docker pull node:20-alpine
+
+# 然后再运行 docker-compose
+docker-compose up -d
+```
+
+### 容器启动失败
+
+**查看日志：**
+```bash
+docker-compose logs -f
+```
+
+**重启容器：**
+```bash
+docker-compose restart
+```
+
+**重新构建：**
+```bash
+docker-compose up -d --build
+```
+
+### 端口冲突
+
+如果 8080 端口被占用，修改 `docker-compose.yml`：
+```yaml
+ports:
+  - "你的端口:80"
+```
 
 ## 🌟 功能截图
 
