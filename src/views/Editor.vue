@@ -268,7 +268,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useBookStore } from '../stores/book'
 import { useApiStore } from '../stores/api'
@@ -350,13 +350,16 @@ onMounted(async () => {
   await apiStore.loadDefaultConfig()
 
   if (bookStore.books.length > 0) {
-    const bookId = router.query.bookId as string
+    const bookId = router.currentRoute.value.query.bookId as string
     if (bookId) {
       selectedBookId.value = bookId
       await handleBookChange(bookId)
     } else {
-      selectedBookId.value = bookStore.books[0].id!
-      await handleBookChange(selectedBookId.value)
+      const firstBook = bookStore.books[0]
+      if (firstBook?.id) {
+        selectedBookId.value = firstBook.id
+        await handleBookChange(selectedBookId.value)
+      }
     }
   }
 })
@@ -364,7 +367,10 @@ onMounted(async () => {
 async function handleBookChange(bookId: string) {
   await bookStore.loadBook(bookId)
   if (bookStore.chapters.length > 0) {
-    bookStore.setCurrentChapter(bookStore.chapters[0])
+    const firstChapter = bookStore.chapters[0]
+    if (firstChapter) {
+      bookStore.setCurrentChapter(firstChapter)
+    }
   }
 }
 
@@ -380,8 +386,7 @@ async function handleAddChapter() {
     bookId: currentBook.value.id!,
     title: `第${count + 1}章`,
     content: '',
-    sortOrder: count,
-    wordCount: 0
+    sortOrder: count
   })
 
   bookStore.setCurrentChapter(newChapter)
@@ -416,10 +421,8 @@ async function handleDeleteChapter(chapterId: string) {
 
 async function handleContentChange() {
   if (currentChapter.value) {
-    const wordCount = currentChapter.value.content.length
     await bookStore.updateChapter(currentChapter.value.id!, {
-      content: currentChapter.value.content,
-      wordCount
+      content: currentChapter.value.content
     })
   }
 }
@@ -587,12 +590,13 @@ async function handleSplitConfirm() {
 
     // 创建新章节
     for (let i = 0; i < parts.length; i++) {
+      const part = parts[i]
+      if (!part || !currentBook.value?.id) return
       await bookStore.createChapter({
-        bookId: currentBook.value.id!,
+        bookId: currentBook.value.id,
         title: `${baseTitle} (${i + 1})`,
-        content: parts[i].trim(),
-        sortOrder: startIndex + i + 1,
-        wordCount: parts[i].length
+        content: part.trim(),
+        sortOrder: startIndex + i + 1
       })
     }
 

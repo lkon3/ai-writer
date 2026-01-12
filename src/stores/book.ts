@@ -147,7 +147,7 @@ export const useBookStore = defineStore('book', () => {
   // 更新章节排序
   async function updateChapterOrder(chapterId: string, newOrder: number) {
     await db.chapters.update(chapterId, { sortOrder: newOrder })
-    if (currentBook.value) {
+    if (currentBook.value?.id) {
       await loadChapters(currentBook.value.id)
     }
   }
@@ -179,7 +179,7 @@ export const useBookStore = defineStore('book', () => {
       ...updates,
       updatedAt: Date.now()
     })
-    if (currentBook.value) {
+    if (currentBook.value?.id) {
       await loadOutlines(currentBook.value.id)
     }
   }
@@ -187,7 +187,7 @@ export const useBookStore = defineStore('book', () => {
   // 删除大纲
   async function deleteOutline(outlineId: string) {
     await db.outlines.delete(outlineId)
-    if (currentBook.value) {
+    if (currentBook.value?.id) {
       await loadOutlines(currentBook.value.id)
     }
   }

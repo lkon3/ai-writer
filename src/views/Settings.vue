@@ -290,7 +290,17 @@ function handleCreateConfig() {
 
 function handleEditConfig(config: ApiConfig) {
   configDialogMode.value = 'edit'
-  configForm.value = { ...config }
+  configForm.value = {
+    id: config.id,
+    name: config.name,
+    provider: config.provider,
+    apiKey: config.apiKey,
+    baseURL: config.baseURL || '',
+    model: config.model,
+    temperature: config.temperature,
+    maxTokens: config.maxTokens,
+    isDefault: config.isDefault
+  }
   configDialogVisible.value = true
 }
 

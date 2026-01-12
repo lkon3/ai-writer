@@ -10,14 +10,14 @@ export class ApiService {
   async loadDefaultConfig(): Promise<ApiConfig | null> {
     const configs = await db.apiConfigs.where('isDefault').equals(1).toArray()
     if (configs.length > 0) {
-      this.currentConfig = configs[0]
+      this.currentConfig = configs[0] ?? null
       return this.currentConfig
     }
 
     // 如果没有默认配置，返回第一个
     const allConfigs = await db.apiConfigs.toArray()
     if (allConfigs.length > 0) {
-      this.currentConfig = allConfigs[0]
+      this.currentConfig = allConfigs[0] ?? null
       return this.currentConfig
     }
 

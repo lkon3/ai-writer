@@ -243,10 +243,8 @@ const promptForm = ref({
 const rules = {
   name: [{ required: true, message: '请输入名称', trigger: 'blur' }],
   category: [{ required: true, message: '请选择分类', trigger: 'change' }],
-  content: [{ required: true, message, trigger: 'blur' }]
+  content: [{ required: true, message: '请输入提示词内容', trigger: 'blur' }]
 }
-
-const message = '请输入提示词内容'
 
 // 所有分类选项（默认分类 + 已有分类，去重）
 const allCategories = computed(() => {

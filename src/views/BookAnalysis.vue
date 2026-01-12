@@ -265,7 +265,7 @@ async function handleAnalyze() {
 }
 
 function handleExport() {
-  let report = `# ${analysisForm.bookName || '书籍分析报告'}\n\n`
+  let report = `# ${analysisForm.value.bookName || '书籍分析报告'}\n\n`
 
   if (analysisResult.value.opening) {
     report += `## 开头三章分析\n\n${analysisResult.value.opening}\n\n`
@@ -290,7 +290,7 @@ function handleExport() {
   const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
-  a.download = `${analysisForm.bookName || '书籍分析'}_${Date.now()}.md`
+  a.download = `${analysisForm.value.bookName || '书籍分析'}_${Date.now()}.md`
   a.click()
   URL.revokeObjectURL(url)
 
