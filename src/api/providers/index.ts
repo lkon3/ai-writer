@@ -57,7 +57,8 @@ export class OpenAIProvider extends ApiProviderAdapter {
     super(config)
     this.client = new OpenAI({
       apiKey: config.apiKey,
-      baseURL: config.baseURL || 'https://api.openai.com/v1'
+      baseURL: config.baseURL || 'https://api.openai.com/v1',
+      dangerouslyAllowBrowser: true // 允许在浏览器环境中使用
     })
   }
 
@@ -86,7 +87,8 @@ export class AnthropicProvider extends ApiProviderAdapter {
     super(config)
     this.client = new OpenAI({
       apiKey: config.apiKey,
-      baseURL: config.baseURL || 'https://api.anthropic.com/v1'
+      baseURL: config.baseURL || 'https://api.anthropic.com/v1',
+      dangerouslyAllowBrowser: true // 允许在浏览器环境中使用
     })
   }
 
@@ -115,7 +117,8 @@ export class DeepSeekProvider extends ApiProviderAdapter {
     super(config)
     this.client = new OpenAI({
       apiKey: config.apiKey,
-      baseURL: config.baseURL || 'https://api.deepseek.com/v1'
+      baseURL: config.baseURL || 'https://api.deepseek.com/v1',
+      dangerouslyAllowBrowser: true // 允许在浏览器环境中使用
     })
   }
 
@@ -144,7 +147,8 @@ export class ZhipuProvider extends ApiProviderAdapter {
     super(config)
     this.client = new OpenAI({
       apiKey: config.apiKey,
-      baseURL: config.baseURL || 'https://open.bigmodel.cn/api/paas/v4'
+      baseURL: config.baseURL || 'https://open.bigmodel.cn/api/paas/v4',
+      dangerouslyAllowBrowser: true // 允许在浏览器环境中使用
     })
   }
 
@@ -173,7 +177,8 @@ export class OllamaProvider extends ApiProviderAdapter {
     super(config)
     this.client = new OpenAI({
       apiKey: 'ollama', // Ollama不需要API key
-      baseURL: config.baseURL || 'http://localhost:11434/v1'
+      baseURL: config.baseURL || 'http://localhost:11434/v1',
+      dangerouslyAllowBrowser: true // 允许在浏览器环境中使用
     })
   }
 
@@ -202,7 +207,8 @@ export class CustomProvider extends ApiProviderAdapter {
     super(config)
     this.client = new OpenAI({
       apiKey: config.apiKey,
-      baseURL: config.baseURL
+      baseURL: config.baseURL,
+      dangerouslyAllowBrowser: true // 允许在浏览器环境中使用（自定义API）
     })
   }
 
