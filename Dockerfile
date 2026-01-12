@@ -1,5 +1,5 @@
 # 多阶段构建 - 第一阶段：构建应用
-FROM hub-mirror.c.163.com/library/node:20-alpine AS builder
+FROM node:20-alpine AS builder
 
 # 设置工作目录
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY . .
 RUN npm run build
 
 # 第二阶段：使用 Nginx 服务静态文件
-FROM hub-mirror.c.163.com/library/nginx:alpine
+FROM nginx:alpine
 
 # 复制自定义 Nginx 配置
 COPY nginx.conf /etc/nginx/conf.d/default.conf

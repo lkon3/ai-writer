@@ -259,7 +259,37 @@ failed to fetch oauth token: dial tcp: connect: connection timed out
 
 **原因：** 无法访问 Docker Hub（`docker.io`）
 
-**解决方案一：配置镜像加速器（推荐）**
+**解决方案一：配置代理（推荐，如有代理）**
+
+如果你有代理，这是最稳定的方案：
+
+**Windows Docker Desktop：**
+1. 打开 Docker Desktop
+2. 点击设置 → **Resources** → **Proxies**
+3. 启用 **Manual proxy configuration**
+4. 填写代理地址和端口（例如：`127.0.0.1:7890`）
+5. 选择代理协议（HTTP/SOCKS5）
+6. 点击 **Apply & Restart**
+
+**Linux 系统：**
+```bash
+# 创建或编辑 systemd 目录
+sudo mkdir -p /etc/systemd/system/docker.service.d
+
+# 配置代理
+sudo tee /etc/systemd/system/docker.service.d/http-proxy.conf <<-'EOF'
+[Service]
+Environment="HTTP_PROXY=http://127.0.0.1:7890"
+Environment="HTTPS_PROXY=http://127.0.0.1:7890"
+Environment="NO_PROXY=localhost,127.0.0.1"
+EOF
+
+# 重启 Docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+**解决方案二：配置镜像加速器**
 
 **Windows Docker Desktop：**
 1. 打开 Docker Desktop
@@ -294,14 +324,6 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 ```
-
-**解决方案二：配置代理**
-
-如果你使用代理，可以在 Docker Desktop 中配置代理：
-1. 打开 Docker Desktop
-2. 点击设置 → **Resources** → **Proxies**
-3. 启用 **Manual proxy configuration**
-4. 输入代理地址和端口
 
 **解决方案三：手动拉取镜像**
 
