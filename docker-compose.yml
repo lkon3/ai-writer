@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  ai-writer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ai-writer
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+    # 如果需要挂载配置文件或其他数据
+    # volumes:
+    #   - ./config:/app/config:ro
+    networks:
+      - ai-writer-network
+
+networks:
+  ai-writer-network:
+    driver: bridge
