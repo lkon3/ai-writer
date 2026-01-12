@@ -91,7 +91,7 @@
 
 ```bash
 # 克隆项目
-git clone <repository-url>
+git clone https://github.com/lkon3/ai-writer-web
 
 # 进入项目目录
 cd ai-writer
