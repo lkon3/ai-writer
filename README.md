@@ -283,4 +283,3 @@ MIT License
 - [Vite](https://vitejs.dev/)
 - [Pinia](https://pinia.vuejs.org/)
 - [Dexie.js](https://dexie.org/)
-- 1
